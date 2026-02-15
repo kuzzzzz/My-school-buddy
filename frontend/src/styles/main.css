@@ -1,0 +1,43 @@
+:root {
+  font-family: Inter, system-ui, sans-serif;
+  color: #0f172a;
+  background: #eef2ff;
+}
+body { margin: 0; }
+.app-shell nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 1.5rem;
+  background: white;
+  box-shadow: 0 1px 8px rgba(0,0,0,0.08);
+}
+.links { display: flex; gap: .75rem; align-items: center; flex-wrap: wrap; }
+main { padding: 1rem; max-width: 1000px; margin: 0 auto; }
+.card {
+  background: white;
+  border-radius: 12px;
+  padding: 1rem;
+  box-shadow: 0 1px 10px rgba(15,23,42,.08);
+  margin-bottom: 1rem;
+}
+.narrow { max-width: 420px; margin: 2rem auto; }
+form { display: flex; flex-direction: column; gap: .6rem; }
+.grid { display: grid; grid-template-columns: 1fr 1fr; gap: .6rem; }
+.grid button, .grid textarea, .grid input { grid-column: span 2; }
+input, textarea, button {
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  padding: .65rem .75rem;
+  font-size: 0.95rem;
+}
+button { background: #4f46e5; color: white; cursor: pointer; }
+button.ghost { background: transparent; color: #4f46e5; border-color: transparent; }
+.error { color: #dc2626; }
+.chat-box { max-height: 240px; overflow: auto; background: #f8fafc; padding: .75rem; border-radius: 8px; }
+.row { display: flex; gap: .5rem; }
+.list { display: grid; grid-template-columns: repeat(auto-fit,minmax(220px,1fr)); gap: .75rem; }
+@media (max-width: 720px) {
+  .grid { grid-template-columns: 1fr; }
+  .grid button, .grid textarea, .grid input { grid-column: span 1; }
+}
