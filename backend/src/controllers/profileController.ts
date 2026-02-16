@@ -9,7 +9,24 @@ export const profileController = {
     try {
       const userId = req.user!.id;
       const parsed = profileSchema.parse(req.body);
-      const updated = await userRepository.updateProfile(userId, parsed);
+      
+      // Ensure required fields are present
+      if (!parsed.name || !parsed.department) {
+        return res.status(400).json({ message: 'Name and department are required' });
+      }
+      
+      // Cast to the correct type with required fields
+      const profileData = {
+        name: parsed.name,
+        department: parsed.department,
+        strengths: parsed.strengths || [],
+        weakSubjects: parsed.weakSubjects || [],
+        skills: parsed.skills || [],
+        interests: parsed.interests || [],
+        availability: parsed.availability || []
+      };
+      
+      const updated = await userRepository.updateProfile(userId, profileData);
       await graphService.createStudentNode(updated.id, updated.name, updated.department);
       res.json(updated);
     } catch (error: any) {

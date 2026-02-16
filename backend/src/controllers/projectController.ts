@@ -9,7 +9,22 @@ export const projectController = {
   create(req: AuthenticatedRequest, res: Response) {
     try {
       const parsed = projectSchema.parse(req.body);
-      const project = projectRepository.create({ ...parsed, ownerId: req.user!.id });
+      
+      // Ensure required fields are present
+      if (!parsed.name || !parsed.description) {
+        return res.status(400).json({ message: 'Name and description are required' });
+      }
+      
+      // Create project data with required fields
+      const projectData = {
+        ownerId: req.user!.id,
+        name: parsed.name,
+        description: parsed.description,
+        requiredSkills: parsed.requiredSkills || [],
+        maxMembers: parsed.maxMembers || 10
+      };
+      
+      const project = projectRepository.create(projectData);
       res.status(201).json(project);
     } catch (error: any) {
       res.status(400).json({ message: error.message });
