@@ -15,6 +15,17 @@ export const profileController = {
         return res.status(400).json({ message: 'Name and department are required' });
       }
       
+      // Validate and filter availability TimeBlocks
+      const validAvailability = (parsed.availability || []).filter(block => 
+        block.day && 
+        typeof block.startHour === 'number' && 
+        typeof block.endHour === 'number'
+      ).map(block => ({
+        day: block.day!,
+        startHour: block.startHour!,
+        endHour: block.endHour!
+      }));
+      
       // Cast to the correct type with required fields
       const profileData = {
         name: parsed.name,
@@ -23,7 +34,7 @@ export const profileController = {
         weakSubjects: parsed.weakSubjects || [],
         skills: parsed.skills || [],
         interests: parsed.interests || [],
-        availability: parsed.availability || []
+        availability: validAvailability
       };
       
       const updated = await userRepository.updateProfile(userId, profileData);
